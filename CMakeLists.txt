@@ -4,13 +4,8 @@ include(FetchContent)
 
 find_package(Git REQUIRED)
 
-# Get emsdk files, we need the Emscripten.cmake file and this way any computer can just call config and it just works :-)
-if ("${PLATFORM}" STREQUAL "Web")
-    if(WIN32)
-        set(EMSDK_COMMAND "emsdk.bat")
-    else()
-        set(EMSDK_COMMAND "emsdk")
-    endif()
+# Get emsdk files, we need the Emscripten.cmake file and this way any computer can just call config and it just works :-) ( can't make work on windows :'-C )
+if ("${PLATFORM}" STREQUAL "Web" AND NOT WIN32)
     FetchContent_Declare(
         emsdk
         URL https://github.com/emscripten-core/emsdk/archive/refs/tags/3.1.74.tar.gz
@@ -20,15 +15,20 @@ if ("${PLATFORM}" STREQUAL "Web")
     if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/build_web/_deps/emsdk-src/upstream")
         message("Installing emsdk")
         execute_process(
-            COMMAND bash -c "./_deps/emsdk-src/${EMSDK_COMMAND} install latest"
+            COMMAND bash -c "./_deps/emsdk-src/emsdk install latest"
             OUTPUT_VARIABLE outVar
         )
         execute_process(
-            COMMAND bash -c "./_deps/emsdk-src/${EMSDK_COMMAND} activate latest"
+            COMMAND bash -c "./_deps/emsdk-src/emsdk activate latest"
             OUTPUT_VARIABLE outVar
         )
     endif()
     set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/build_web/_deps/emsdk-src/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake")
+endif()
+
+# On windows emsdk will need to be at the root, replace the drive letter if needed
+if ("${PLATFORM}" STREQUAL "Web" AND WIN32)
+    set(CMAKE_TOOLCHAIN_FILE "C:/emsdk/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake")
 endif()
 
 project(raylib-game-template)
