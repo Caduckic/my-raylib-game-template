@@ -1,7 +1,37 @@
 cmake_minimum_required(VERSION 3.24...3.30)
-project(raylib-game-template)
 
 include(FetchContent)
+
+find_package(Git REQUIRED)
+
+# Get emsdk files, we need the Emscripten.cmake file and this way any computer can just call config and it just works :-)
+if ("${PLATFORM}" STREQUAL "Web")
+    if(WIN32)
+        set(EMSDK_COMMAND "emsdk.bat")
+    else()
+        set(EMSDK_COMMAND "emsdk")
+    endif()
+    FetchContent_Declare(
+        emsdk
+        URL https://github.com/emscripten-core/emsdk/archive/refs/tags/3.1.74.tar.gz
+        LOG_DOWNLOAD ON
+    )
+    FetchContent_MakeAvailable(emsdk)
+    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/build_web/_deps/emsdk-src/upstream")
+        message("Installing emsdk")
+        execute_process(
+            COMMAND bash -c "./_deps/emsdk-src/${EMSDK_COMMAND} install latest"
+            OUTPUT_VARIABLE outVar
+        )
+        execute_process(
+            COMMAND bash -c "./_deps/emsdk-src/${EMSDK_COMMAND} activate latest"
+            OUTPUT_VARIABLE outVar
+        )
+    endif()
+    set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/build_web/_deps/emsdk-src/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake")
+endif()
+
+project(raylib-game-template)
 
 # Generate compile_commands.json
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -17,6 +47,7 @@ FetchContent_Declare(
 )
 
 FetchContent_MakeAvailable(raylib)
+
 
 # Our Project
 add_executable(${PROJECT_NAME} ./src/raylib_game.cpp)
