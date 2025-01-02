@@ -20,7 +20,6 @@
             "name": "GCC",
             "displayName": "Desktop Config",
             "binaryDir": "build_desktop",
-            "generator": "Unix Makefiles",
             "cacheVariables": {
                 "CMAKE_C_COMPILER": "gcc",
                 "CMAKE_BUILD_TYPE": "Debug"
