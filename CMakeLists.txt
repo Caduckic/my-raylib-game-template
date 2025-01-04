@@ -37,7 +37,7 @@ project(raylib-game-template)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Dependencies
-set(RAYLIB_VERSION 5.0)
+set(RAYLIB_VERSION 5.5)
 
 FetchContent_Declare(
     raylib
@@ -48,6 +48,18 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(raylib)
 
+set(RAYGUI_VERSION 4.0)
+
+FetchContent_Declare(
+    raygui
+    DOWNLOAD_EXTRACT_TIMESTAMP OFF
+    URL https://github.com/raysan5/raygui/archive/refs/tags/${RAYGUI_VERSION}.tar.gz
+    FIND_PACKAGE_ARGS
+)
+
+FetchContent_MakeAvailable(raygui)
+
+include_directories(${CMAKE_BINARY_DIR}/_deps/raygui-src/src)
 
 # Our Project
 add_executable(${PROJECT_NAME} ./src/raylib_game.cpp)
@@ -80,7 +92,7 @@ if ("${PLATFORM}" STREQUAL "Web")
     # Tell Emscripten to build an example.html file.
     #set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".html")
     set(CMAKE_EXECUTABLE_SUFFIX .html)
-    target_link_options(${PROJECT_NAME} PUBLIC -sUSE_GLFW=3 PUBLIC --preload-file resources -fexceptions)
+    target_link_options(${PROJECT_NAME} PUBLIC -sUSE_GLFW=3 PUBLIC --preload-file resources -fexceptions -lbrowser.js)
 endif()
 
 # Checks if OSX and links appropriate frameworks (Only required on MacOS)
