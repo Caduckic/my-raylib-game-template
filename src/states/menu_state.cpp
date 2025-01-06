@@ -27,14 +27,21 @@ void MenuState::init() {
 
     buttonCount = 3;
 
-    font = LoadFont("resources/mecha.png");
+    if (!IsFontValid(font))
+        font = LoadFont("resources/mecha.png");
     fontSize = 48;
 
     quitGame = false;
 }
 
 void MenuState::deInit() {
-    UnloadFont(font);
+    /*  -----------------------------------------------------------------------------------------------------
+        window close seems to handle this, and if you do it yourself it tries to double free default font.
+        not sure what exactly is the best way to handle this as it feels wrong to not unload the font myself,
+        like what if I have multiple fonts?  
+    */
+    // if (IsFontValid(font))
+        // UnloadFont(font);
 }
 
 void MenuState::update(Camera2D& camera2D, Camera3D& camera3D) {
