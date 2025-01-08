@@ -1,17 +1,14 @@
-#ifndef PLAY_STATE_CPP
-#define PLAY_STATE_CPP
-
-#include "raylib.h"
-
 #include <sstream>
 #include <iomanip>
 #include <iostream>
 
-#include "states.hpp"
+#include "states.h"
 
 PlayState::PlayState() {
     init();
 }
+
+PlayState::~PlayState() = default;
 
 void PlayState::init() {
     playerSize = {128.0f, 32.0f};
@@ -105,5 +102,3 @@ void PlayState::render(const Camera2D& camera2D, const Camera3D& camera3D) {
     DrawRectangleV(playerPos, playerSize, RED);
     DrawCircleV(ballPos, ballRadius, BLUE);
 }
-
-#endif

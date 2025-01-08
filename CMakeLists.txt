@@ -62,7 +62,17 @@ FetchContent_MakeAvailable(raygui)
 include_directories(${CMAKE_BINARY_DIR}/_deps/raygui-src/src)
 
 # Our Project
-add_executable(${PROJECT_NAME} ./src/raylib_game.cpp)
+file(GLOB_RECURSE SOURCES
+    ${CMAKE_SOURCE_DIR}/src/*.cpp
+    ${CMAKE_SOURCE_DIR}/src/states/*.cpp
+)
+
+file(GLOB_RECURSE HEADERS
+    ${CMAKE_SOURCE_DIR}/src/*.h
+    ${CMAKE_SOURCE_DIR}/src/states/*.h
+)
+
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
 add_subdirectory(src)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES

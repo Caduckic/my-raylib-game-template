@@ -1,10 +1,7 @@
-#ifndef STATES_HPP
-#define STATES_HPP
+#ifndef STATES_H
+#define STATES_H
 
 #include "raylib.h"
-
-#define RAYGUI_IMPLEMENTATION
-#include "raygui.h"
 
 enum StateType {
     NO_STATE = 0,
@@ -27,37 +24,25 @@ protected:
     bool reverseInit = false;
     bool popState = false;
 
-    void PopSelf() {
-        popState = true;
-    }
+    void PopSelf();
 public:
-    State() = default;
-    ~State() = default;
+    State();
+    ~State();
 
-    virtual void init() {};
-    virtual void deInit() {};
+    virtual void init();
+    virtual void deInit();
     virtual void update(Camera2D& camera2D, Camera3D& camera3D) = 0;
     virtual void render(const Camera2D& camera2D, const Camera3D& camera3D) = 0;
     
-    StateType getNextState() const {
-        return nextState;
-    }
+    StateType getNextState() const;
 
-    bool shouldStateRender() const {
-        return stateRender;
-    }
+    bool shouldStateRender() const;
 
-    StateCam getStateDimension() const {
-        return stateCam;
-    }
+    StateCam getStateDimension() const;
 
-    bool isReverseInit() const {
-        return reverseInit;
-    }
+    bool isReverseInit() const;
 
-    bool shouldStatePop() const {
-        return popState;
-    }
+    bool shouldStatePop() const;
 };
 
 class LogoState : public State {
@@ -80,7 +65,7 @@ private:
 public:
     LogoState();
 
-    ~LogoState() = default;
+    ~LogoState();
 
     virtual void update(Camera2D& camera2D, Camera3D& camera3D) override;
 
@@ -105,7 +90,7 @@ private:
     bool quitGame;
 public:
     MenuState();
-    ~MenuState() = default;
+    ~MenuState();
 
     virtual void init() override;
 
@@ -135,7 +120,7 @@ private:
     Sound coinSound;
 public:
     PlayState();
-    ~PlayState() = default;
+    ~PlayState();
 
     virtual void init() override;
 

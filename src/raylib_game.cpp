@@ -14,15 +14,20 @@
 
 #include "raylib.h"
 
+#define RAYGUI_IMPLEMENTATION
+#include "raygui.h"
+
 #include <memory>
 #include <iostream>
 
-#include "game.hpp"
-#include "exiter.hpp"
+#include "game.h"
+#include "exiter.h"
 
 #if defined(PLATFORM_WEB)
     #include <emscripten/emscripten.h>
 #endif
+
+Exiter Exiter::instance;
 
 //----------------------------------------------------------------------------------
 // Local Variables Definition (local to this module)

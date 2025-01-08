@@ -1,14 +1,13 @@
-#ifndef MENU_STATE_CPP
-#define MENU_STATE_CPP
+#include "raygui.h"
 
-#include "raylib.h"
-
-#include "states.hpp"
-#include "../exiter.hpp"
+#include "states.h"
+#include "../exiter.h"
 
 MenuState::MenuState() {
     init();
 }
+
+MenuState::~MenuState() = default;
 
 void MenuState::init() {
     reverseInit = true;
@@ -41,7 +40,7 @@ void MenuState::deInit() {
         like what if I have multiple fonts?  
     */
     // if (IsFontValid(font))
-        // UnloadFont(font);
+    //     UnloadFont(font);
 }
 
 void MenuState::update(Camera2D& camera2D, Camera3D& camera3D) {
@@ -77,5 +76,3 @@ void MenuState::render(const Camera2D& camera2D, const Camera3D& camera3D) {
 
     }
 }
-
-#endif

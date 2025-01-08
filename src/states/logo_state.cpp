@@ -1,9 +1,4 @@
-#ifndef LOGO_STATE_CPP
-#define LOGO_STATE_CPP
-
-#include "raylib.h"
-
-#include "states.hpp"
+#include "states.h"
 
 LogoState::LogoState() {
     framesCounter = 0;
@@ -20,6 +15,8 @@ LogoState::LogoState() {
     state = 0;
     alpha = 1.0f;
 }
+
+LogoState::~LogoState() = default;
 
 void LogoState::update(Camera2D& camera2D, Camera3D& camera3D) {
     if (IsWindowResized()) {
@@ -130,5 +127,3 @@ void LogoState::render(const Camera2D& camera2D, const Camera3D& camera3D) {
         if (framesCounter > 20) DrawText("powered by", logoPositionX, logoPositionY - 27, 20, Fade(DARKGRAY, alpha));
     }
 }
-
-#endif
