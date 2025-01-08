@@ -3,8 +3,6 @@
 
 #include "raylib.h"
 
-#include <iostream>
-
 #include "states/state_manager.h"
 
 class Game {

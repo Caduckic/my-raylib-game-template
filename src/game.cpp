@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "game.h"
 
 Game::Game(const int screenWidth, const int screenHeight) {
