@@ -166,6 +166,19 @@ copy_project_resources:
 	if [ -d "$(PROJECT_RESOURCES_PATH)" ]; then \
 		cp -r $(PROJECT_RESOURCES_PATH)/* $(PROJECT_BUILD_PATH)/assets/$(PROJECT_RESOURCES_PATH)/; \
 	fi
+	# Copy icon PNGs
+	if [ -d "src/icon_res" ]; then \
+		mkdir -p $(PROJECT_BUILD_PATH)/res/mipmap-mdpi; \
+		mkdir -p $(PROJECT_BUILD_PATH)/res/mipmap-hdpi; \
+		mkdir -p $(PROJECT_BUILD_PATH)/res/mipmap-xhdpi; \
+		mkdir -p $(PROJECT_BUILD_PATH)/res/mipmap-xxhdpi; \
+		mkdir -p $(PROJECT_BUILD_PATH)/res/mipmap-xxxhdpi; \
+		cp src/icon_res/mdpi.png $(PROJECT_BUILD_PATH)/res/mipmap-mdpi/ic_launcher.png; \
+		cp src/icon_res/hdpi.png $(PROJECT_BUILD_PATH)/res/mipmap-hdpi/ic_launcher.png; \
+		cp src/icon_res/xhdpi.png $(PROJECT_BUILD_PATH)/res/mipmap-xhdpi/ic_launcher.png; \
+		cp src/icon_res/xxhdpi.png $(PROJECT_BUILD_PATH)/res/mipmap-xxhdpi/ic_launcher.png; \
+		cp src/icon_res/xxxhdpi.png $(PROJECT_BUILD_PATH)/res/mipmap-xxxhdpi/ic_launcher.png; \
+	fi
 
 generate_loader_script:
 	@mkdir -p $(PROJECT_BUILD_PATH)/src/com/$(APP_COMPANY_NAME)/$(APP_PRODUCT_NAME)
@@ -184,7 +197,7 @@ generate_android_manifest:
 	@echo '<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.$(APP_COMPANY_NAME).$(APP_PRODUCT_NAME)" android:versionCode="$(APP_VERSION_CODE)" android:versionName="$(APP_VERSION_NAME)">' >> $(PROJECT_BUILD_PATH)/AndroidManifest.xml
 	@echo '    <uses-sdk android:minSdkVersion="$(ANDROID_API_VERSION)" />' >> $(PROJECT_BUILD_PATH)/AndroidManifest.xml
 	@echo '    <uses-feature android:glEsVersion="0x00020000" android:required="true" />' >> $(PROJECT_BUILD_PATH)/AndroidManifest.xml
-	@echo '    <application android:allowBackup="false" android:label="@string/app_name" android:icon="@android:drawable/sym_def_app_icon">' >> $(PROJECT_BUILD_PATH)/AndroidManifest.xml
+	@echo '    <application android:allowBackup="false" android:label="@string/app_name" android:icon="@mipmap/ic_launcher">' >> $(PROJECT_BUILD_PATH)/AndroidManifest.xml
 	@echo '        <activity android:name="com.$(APP_COMPANY_NAME).$(APP_PRODUCT_NAME).NativeLoader" android:theme="@android:style/Theme.NoTitleBar.Fullscreen" android:configChanges="orientation|keyboard|keyboardHidden|screenSize" android:screenOrientation="$(APP_SCREEN_ORIENTATION)" android:launchMode="singleTask" android:clearTaskOnLaunch="true" android:exported="true">' >> $(PROJECT_BUILD_PATH)/AndroidManifest.xml
 	@echo '            <meta-data android:name="android.app.lib_name" android:value="$(PROJECT_LIBRARY_NAME)" />' >> $(PROJECT_BUILD_PATH)/AndroidManifest.xml
 	@echo '            <intent-filter>' >> $(PROJECT_BUILD_PATH)/AndroidManifest.xml
